@@ -418,15 +418,8 @@ class neuralNetwork():
 
         # single/multi class problem, single node and it can be anything greater than 0
         elif self.config[self.configKeyList[-1]][-1] == 'relu': 
-          maxRange = self.numClass
-          interval = 1
-          for idx in range(0, maxRange, interval):
-            if idx+1 == self.numClass:
-              iVal = idx - 0.5
-              yPred[yPred >= iVal] = idx
-            else:
-              iVal = idx + 0.5
-              yPred[yPred < iVal] = idx
+          yPred = np.round(yPred)
+          yPred = np.clip(yPred, 0, self.numClass-1) # sanity check 
         return yPred, yPredOrigin
     
     def error(self, y, yPred):
